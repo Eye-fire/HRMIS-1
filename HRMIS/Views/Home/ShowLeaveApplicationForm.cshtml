@@ -1,0 +1,143 @@
+﻿<!-- page content -->
+@*<div class="right_col" role="main">*@
+<div role="main">
+	<div class="">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>Form Validation</h3>
+			</div>
+			<div class="title_right">
+				<div class="col-md-5 col-sm-5 form-group pull-right top_search">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search for..."> <span class="input-group-btn">
+							<button class="btn btn-default" type="button">Go!</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>Leave Application <small>No. of Leave Days</small></h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li>
+								<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<a class="dropdown-item" href="#">Settings 1</a>
+									<a class="dropdown-item" href="#">Settings 2</a>
+								</div>
+							</li>
+							<li>
+								<a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						@*<form asp-action="SaveAppliedLeave" asp-controller="Home" method="POST">*@
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3  label-align">
+										Leave From<span class="required">*</span>
+									</label>
+									<div class="col-md-6 col-sm-6">
+										<input id="leaveFrom" class="form-control date" type="date" name="date" required='required'>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3  label-align">
+										Leave To<span class="required">*</span>
+									</label>
+									<div class="col-md-6 col-sm-6">
+										<input id="leaveTo" class="form-control date" type="date" name="date" required='required'>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3  label-align">
+										Leave Type<span class="required">*</span>
+									</label>
+									<div class="col-md-9 col-sm-9 ">
+										<select id="leaveType" class="form-control">
+											<option>Annual Leave</option>
+											<option>Study Leave</option>
+											<option>Maternity Leave</option>
+											<option>Parternity Leave</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<label for="fullname">Days Applied * :</label>
+						<input type="text" id="daysApplied" class="form-control" name="days" required />
+						<br />
+						<label for="message">Comments (20 chars min, 100 max) :</label>
+						<textarea id="comments" required="required" class="form-control" name="message" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.." data-parsley-validation-threshold="10"></textarea>
+						<div class="ln_solid">
+							<div class="form-group">
+								<div class="col-md-6 offset-md-3">
+									<input id="loginButton" type="submit" class="btnRegister" value="Apply">&nbsp;&nbsp;
+									<input id="login" type="submit" class="btnRegister" value="Cancel">
+								</div>
+							</div>
+						</div>
+						@*</form>*@
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /page content -->
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$("#loginButton").on("click", function () {
+			var EmpId = 5;
+			var dateFrom = $('#leaveFrom').val();
+			var dateTo = $('#leaveTo').val();
+			var leaveType = $('#leaveType').val();
+			var daysApplied = $('#daysApplied').val();
+			$.ajax(
+				{
+					
+					//contentType: "application/json; characterset=utf-8",
+					//dataType: "json",
+					type: "POST",
+					url: "/Home/SaveAppliedLeave",
+					data: { EmpId, dateFrom, dateTo, leaveType, daysApplied },
+
+					success: function (data) {
+						if (data) {
+							console.log(data);
+							window.location.replace('/Home/Index');
+							alert("Leave Successfully Applied");
+						}
+						else {
+							alert('Error');
+						}
+					},
+					error: function (data) {
+						console.log(data);
+					}
+				});
+
+		});
+	});
+</script>
